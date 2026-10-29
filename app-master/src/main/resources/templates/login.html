@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar Sesión</title>
+</head>
+<body>
+<h2>Ingresa a tu cuenta</h2>
+
+<!-- Mensaje de error si las credenciales fallan -->
+<p th:if="${param.error}" style="color: red;">Usuario o contraseña incorrectos.</p>
+
+<!-- El formulario apunta al @PostMapping("/login") -->
+<form action="/login" method="POST">
+    <div>
+        <label for="nombre">Usuario:</label>
+        <input type="text" id="nombre" name="nombre" required>
+    </div>
+    <br>
+    <div>
+        <label for="contrasena">Contraseña:</label>
+        <input type="password" id="contrasena" name="contrasena" required>
+    </div>
+    <br>
+    <button type="submit">Entrar</button>
+</form>
+
+<br>
+<p>¿No tienes cuenta? <a href="/registro">Regístrate aquí</a></p>
+</body>
+</html>

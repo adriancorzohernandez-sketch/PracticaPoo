@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Panel Admin</title>
+    <link rel="stylesheet" href="/adminC.css">
+</head>
+<body>
+<h2>Panel de Administrador</h2>
+<button onclick="cerrarSesion()">Cerrar Sesion</button>
+
+<hr>
+<!-- SECCIÓN DE PRODUCTOS -->
+<h3>Agregar Nuevo Producto</h3>
+<input type="text" id="nombreProd" placeholder="Nombre">
+<input type="number" id="precioProd" placeholder="Precio">
+<button onclick="agregarProducto()">Guardar Producto</button>
+
+<h3>Catalogo de Productos</h3>
+<ul id="listaProductos"></ul>
+
+<hr>
+<!-- SECCIÓN DE USUARIOS -->
+<h3>Agregar Nuevo Usuario</h3>
+<input type="text" id="nombreUser" placeholder="Nombre">
+<input type="password" id="passUser" placeholder="Contrasena">
+<input type="text" id="rfcUser" placeholder="RFC">
+<select id="rolUser" style="padding: 10px; margin: 5px 0; border-radius: 5px;">
+    <option value="USER">Usuario Normal</option>
+    <option value="ADMIN">Administrador</option>
+</select>
+<button onclick="agregarUsuario()">Guardar Usuario</button>
+
+<h3>Gestion de Usuarios</h3>
+<ul id="listaUsuarios"></ul>
+
+<script>
+    const auth = sessionStorage.getItem('credenciales');
+    if (!auth) window.location.href = '/index.html';
+
+    // --- FUNCIONES PARA PRODUCTOS ---
+    async function cargarProductos() {
+        const res = await fetch('/api/productos', { headers: { 'Authorization': 'Basic ' + auth } });
+        const productos = await res.json();
+        const lista = document.getElementById('listaProductos');
+        lista.innerHTML = '';
+        productos.forEach(p => {
+            lista.innerHTML += `<li>${p.nombre} - $${p.precio} <button onclick="eliminarProducto(${p.id})">Borrar</button></li>`;
+        });
+    }
+
+    async function agregarProducto() {
+        const nombre = document.getElementById('nombreProd').value;
+        const precio = document.getElementById('precioProd').value;
+        await fetch('/api/productos', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Basic ' + auth },
+            body: JSON.stringify({ nombre: nombre, precio: parseFloat(precio) })
+        });
+        cargarProductos();
+    }
+
+    async function eliminarProducto(id) {
+        await fetch('/api/productos/' + id, {
+            method: 'DELETE',
+            headers: { 'Authorization': 'Basic ' + auth }
+        });
+        cargarProductos();
+    }
+
+    // --- FUNCIONES PARA USUARIOS ---
+    async function cargarUsuarios() {
+        const res = await fetch('/api/usuarios', { headers: { 'Authorization': 'Basic ' + auth } });
+        const usuarios = await res.json();
+        const lista = document.getElementById('listaUsuarios');
+        lista.innerHTML = '';
+        usuarios.forEach(u => {
+            lista.innerHTML += `<li>${u.nombre} (${u.rol}) - RFC: ${u.rfc} <button onclick="eliminarUsuario(${u.id})">Borrar</button></li>`;
+        });
+    }
+
+    async function agregarUsuario() {
+        const nombre = document.getElementById('nombreUser').value;
+        const contrasena = document.getElementById('passUser').value;
+        const rfc = document.getElementById('rfcUser').value;
+        const rol = document.getElementById('rolUser').value;
+
+        await fetch('/api/usuarios', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Basic ' + auth },
+            body: JSON.stringify({ nombre: nombre, contrasena: contrasena, rfc: rfc, rol: rol })
+        });
+
+        // Limpiar campos después de guardar
+        document.getElementById('nombreUser').value = '';
+        document.getElementById('passUser').value = '';
+        document.getElementById('rfcUser').value = '';
+
+        cargarUsuarios();
+    }
+
+    async function eliminarUsuario(id) {
+        await fetch('/api/usuarios/' + id, {
+            method: 'DELETE',
+            headers: { 'Authorization': 'Basic ' + auth }
+        });
+        cargarUsuarios();
+    }
+
+    function cerrarSesion() {
+        sessionStorage.removeItem('credenciales');
+        window.location.href = '/index.html';
+    }
+
+    // Cargar las listas al iniciar la página
+    cargarProductos();
+    cargarUsuarios();
+</script>
+</body>
+</html>

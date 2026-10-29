@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Usuarios</title>
+</head>
+<body>
+<h2>Crea una nueva cuenta</h2>
+
+<!-- Estos mensajes aparecerán si la URL detecta "exito" o "error" desde tu controlador -->
+<p th:if="${param.exito}" style="color: green;">¡Registro exitoso!</p>
+<p th:if="${param.error}" style="color: red;">Error: El usuario ya existe.</p>
+
+<!-- El formulario envía por POST a la ruta /registrar -->
+<form action="/registrar" method="POST">
+    <div>
+        <label for="nombre">Usuario:</label>
+        <input type="text" id="nombre" name="nombre" required>
+    </div>
+    <br>
+    <div>
+        <label for="contrasena">Contraseña:</label>
+        <input type="password" id="contrasena" name="contrasena" required>
+    </div>
+    <br>
+    <button type="submit">Registrarse</button>
+</form>
+</body>
+</html>

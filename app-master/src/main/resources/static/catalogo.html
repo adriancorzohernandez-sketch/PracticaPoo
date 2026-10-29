@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Catalogo</title>
+    <link rel="stylesheet" href="/catalogoC.css">
+</head>
+<body>
+<h2>Catalogo de Productos (Solo Lectura)</h2>
+<button onclick="cerrarSesion()">Cerrar Sesion</button>
+
+<ul id="listaProductos"></ul>
+
+<script>
+    const auth = sessionStorage.getItem('credenciales');
+    if (!auth) window.location.href = '/index.html'; // Protege la ruta
+
+    async function cargarCatalogo() {
+        const res = await fetch('/api/productos', {
+            headers: { 'Authorization': 'Basic ' + auth }
+        });
+        const productos = await res.json();
+        const lista = document.getElementById('listaProductos');
+        productos.forEach(p => {
+            lista.innerHTML += `<li>${p.nombre} - $${p.precio}</li>`;
+        });
+    }
+
+    function cerrarSesion() {
+        sessionStorage.removeItem('credenciales');
+        window.location.href = '/index.html';
+    }
+
+    cargarCatalogo();
+</script>
+</body>
+</html>

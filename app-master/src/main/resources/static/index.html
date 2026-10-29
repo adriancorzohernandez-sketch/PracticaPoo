@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Iniciar Sesion</title>
+    <link rel="stylesheet" href="/indexC.css">
+</head>
+<body>
+<h2>Sistema de Gestion</h2>
+<input type="text" id="username" placeholder="Usuario"><br><br>
+<input type="password" id="password" placeholder="Contrasena"><br><br>
+<button onclick="login()">Entrar</button>
+<p id="error" style="color:red;"></p>
+
+<script>
+    async function login() {
+        const u = document.getElementById('username').value;
+        const p = document.getElementById('password').value;
+        const auth = btoa(u + ':' + p); // Encripta credenciales a Base64
+
+        // Probamos si tiene acceso a productos (ambos roles pueden)
+        const res = await fetch('/api/productos', {
+            headers: { 'Authorization': 'Basic ' + auth }
+        });
+
+        if (res.ok) {
+            sessionStorage.setItem('credenciales', auth);
+
+            // Comprobamos si es ADMIN intentando acceder a la lista de usuarios
+            const testAdmin = await fetch('/api/usuarios', {
+                headers: { 'Authorization': 'Basic ' + auth }
+            });
+
+            if (testAdmin.ok) {
+                window.location.href = '/admin.html'; // Es admin
+            } else {
+                window.location.href = '/catalogo.html'; // Es usuario normal
+            }
+        } else {
+            document.getElementById('error').innerText = "Usuario o contrasena incorrectos";
+        }
+    }
+</script>
+</body>
+</html>

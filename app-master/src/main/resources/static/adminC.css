@@ -1,0 +1,255 @@
+/* ========= FUENTE Y RESETEO ========= */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+/* ========= FONDO ========= */
+
+body{
+    min-height:100vh;
+    padding:40px;
+    background:
+            linear-gradient(135deg,#111827,#1f2937,#0f172a);
+    color:#fff;
+}
+
+/* ========= TITULOS ========= */
+
+h2{
+    text-align:center;
+    font-size:2.5rem;
+    margin-bottom:30px;
+    color:#fff;
+    letter-spacing:1px;
+    text-transform:uppercase;
+}
+
+h3{
+    margin:25px 0 15px;
+    color:#60a5fa;
+    font-size:1.2rem;
+    font-weight:600;
+}
+
+/* ========= SEPARADORES ========= */
+
+hr{
+    border:none;
+    height:1px;
+    margin:30px 0;
+    background:rgba(255,255,255,0.15);
+}
+
+/* ========= TARJETA PRINCIPAL ========= */
+
+body{
+    display:flex;
+    flex-direction:column;
+    max-width:1200px;
+    margin:auto;
+}
+
+/* ========= INPUTS ========= */
+
+input,
+select{
+    width:100%;
+    max-width:350px;
+    padding:14px;
+    margin:8px 0;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,.15);
+    background:rgba(255,255,255,.08);
+    color:white;
+    backdrop-filter:blur(12px);
+    font-size:15px;
+    transition:.3s;
+}
+
+input::placeholder{
+    color:rgba(255,255,255,.6);
+}
+
+input:focus,
+select:focus{
+    outline:none;
+    border-color:#3b82f6;
+    box-shadow:0 0 15px rgba(59,130,246,.4);
+}
+
+select option{
+    background:#1f2937;
+    color:white;
+}
+
+/* ========= BOTONES ========= */
+
+button{
+    border:none;
+    padding:14px 22px;
+    margin:8px 0;
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:600;
+    font-size:14px;
+    transition:.3s;
+    color:white;
+
+    background:linear-gradient(
+            135deg,
+            #2563eb,
+            #3b82f6
+    );
+
+    box-shadow:
+            0 10px 25px rgba(37,99,235,.35);
+}
+
+button:hover{
+    transform:translateY(-3px);
+    box-shadow:
+            0 15px 30px rgba(37,99,235,.45);
+}
+
+/* BOTON CERRAR SESION */
+
+body > button:first-of-type{
+    align-self:flex-end;
+
+    background:linear-gradient(
+            135deg,
+            #dc2626,
+            #ef4444
+    );
+}
+
+body > button:first-of-type:hover{
+    box-shadow:
+            0 15px 30px rgba(239,68,68,.4);
+}
+
+/* ========= LISTAS ========= */
+
+ul{
+    list-style:none;
+    margin-top:15px;
+}
+
+/* ========= ITEMS ========= */
+
+li{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:18px 20px;
+    margin-bottom:15px;
+
+    background:rgba(255,255,255,.05);
+
+    backdrop-filter:blur(15px);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:16px;
+
+    transition:.3s;
+}
+
+li:hover{
+    transform:translateY(-2px);
+
+    background:rgba(255,255,255,.08);
+
+    border-color:rgba(96,165,250,.4);
+}
+
+/* BOTON BORRAR */
+
+li button{
+    background:linear-gradient(
+            135deg,
+            #dc2626,
+            #ef4444
+    );
+
+    box-shadow:none;
+}
+
+li button:hover{
+    background:linear-gradient(
+            135deg,
+            #b91c1c,
+            #dc2626
+    );
+}
+
+/* ========= EFECTO SECCION ========= */
+
+h3,
+input,
+select,
+button,
+ul{
+    position:relative;
+    z-index:2;
+}
+
+/* ========= TARJETAS VISUALES ========= */
+
+.seccion{
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:20px;
+    padding:25px;
+    margin-bottom:25px;
+
+    backdrop-filter:blur(20px);
+
+    box-shadow:
+            0 10px 35px rgba(0,0,0,.25);
+}
+
+/* ========= SCROLL ========= */
+
+::-webkit-scrollbar{
+    width:10px;
+}
+
+::-webkit-scrollbar-track{
+    background:#111827;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#3b82f6;
+    border-radius:20px;
+}
+
+/* ========= RESPONSIVE ========= */
+
+@media(max-width:768px){
+
+    body{
+        padding:20px;
+    }
+
+    li{
+        flex-direction:column;
+        gap:15px;
+        text-align:center;
+    }
+
+    li button{
+        width:100%;
+    }
+
+    input,
+    select{
+        max-width:100%;
+    }
+}
